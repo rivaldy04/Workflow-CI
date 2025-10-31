@@ -21,7 +21,7 @@ np.random.seed(42)
 random.seed(42)
 
 # === Load dataset ===
-data = pd.read_csv("earthquake_data_preprocessing.csv")
+data = pd.read_csv("MLProject/data/earthquake_data_preprocessing.csv")
 
 # === Pisahkan fitur dan target ===
 X = data.drop("tsunami", axis=1)
