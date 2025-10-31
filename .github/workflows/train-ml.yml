@@ -18,45 +18,25 @@ jobs:
         with:
           activate-environment: ml-env
           environment-file: MLProject/conda.yaml
-          python-version: 3.10
-          auto-update-conda: true
           auto-activate-base: false
-          show-channel-urls: true
+          python-version: 3.10
 
-      - name: Verify Conda environment
+      - name: Verify Conda Environment
         shell: bash -l {0}
         run: |
+          echo "=== Conda Info ==="
           conda info
+          echo "=== Conda List ==="
           conda list
 
-      - name: Run preprocessing
+      - name: Run Model Training
         shell: bash -l {0}
         run: |
-          python MLProject/earthquake_data_preprocessing.py
+          cd MLProject
+          python modelling.py
 
-      - name: Train model
-        shell: bash -l {0}
-        run: |
-          python MLProject/modelling.py
-
-      - name: Upload trained model artifact
+      - name: Upload MLflow Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: trained-model
-          path: |
-            MLProject/*.joblib
-
-      - name: Commit and push MLflow artifacts
-        shell: bash -l {0}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          mkdir -p MLProject/mlruns
-
-          git add MLProject/mlruns
-          git add MLProject/*.joblib
-          git commit -m "Update MLflow artifacts [skip ci]" || echo "No changes to commit"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: mlflow-artifacts
+          path: MLProject/mlruns/
