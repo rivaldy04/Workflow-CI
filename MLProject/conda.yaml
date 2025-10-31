@@ -1,7 +1,7 @@
 name: ml-env
 channels:
-  - defaults
   - conda-forge
+  - defaults
 
 dependencies:
   - python=3.10
@@ -10,5 +10,5 @@ dependencies:
   - numpy
   - pip
   - pip:
-      - mlflow
+      - mlflow==2.12.1
       - joblib
