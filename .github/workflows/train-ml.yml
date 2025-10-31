@@ -29,15 +29,12 @@ jobs:
           conda info
           conda list
 
-      - name: Run preprocessing
+      - name: Run training
         shell: bash -l {0}
         run: |
-          python MLProject/earthquake_data_preprocessing.py
-
-      - name: Train model
-        shell: bash -l {0}
-        run: |
-          python MLProject/modelling.py
+          conda activate ml-env
+          set -e
+          python -u MLProject/modelling.py
 
       - name: Upload trained model artifact
         uses: actions/upload-artifact@v4
