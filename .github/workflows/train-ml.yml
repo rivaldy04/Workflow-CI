@@ -14,15 +14,17 @@ jobs:
         uses: actions/checkout@v4
 
       # Setup Miniconda
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v3
+      - name: Set up Miniforge (stable)
+        uses: conda-incubator/setup-miniconda@v2
         with:
-          miniforge-variant: Mambaforge
-          python-version: 3.10
-          activate-environment: ml-env
-          environment-file: MLProject/conda.yaml
-          auto-activate-base: false
-          use-mamba: true
+        miniforge-variant: Mambaforge
+        miniforge-version: latest
+        python-version: 3.10
+        activate-environment: ml-env
+        environment-file: MLProject/conda.yaml
+        auto-activate-base: false
+        use-mamba: true
+
 
       # Debug step untuk cek apakah conda jalan
       - name: Debug Conda
