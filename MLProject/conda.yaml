@@ -1,0 +1,14 @@
+name: ml-env
+channels:
+  - defaults
+  - conda-forge
+
+dependencies:
+  - python=3.10
+  - pandas
+  - scikit-learn
+  - numpy
+  - pip
+  - pip:
+      - mlflow
+      - joblib
