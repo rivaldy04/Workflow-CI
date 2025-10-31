@@ -13,30 +13,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Setup Miniconda
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
+          miniforge-variant: Mambaforge
+          python-version: 3.10
           activate-environment: ml-env
           environment-file: MLProject/conda.yaml
           auto-activate-base: false
-          python-version: 3.10
+          use-mamba: true
 
-      - name: Verify Conda Environment
+      # Debug step untuk cek apakah conda jalan
+      - name: Debug Conda
         shell: bash -l {0}
         run: |
-          echo "=== Conda Info ==="
+          echo "===== Conda Info ====="
           conda info
-          echo "=== Conda List ==="
+          echo "===== Conda List ====="
           conda list
 
-      - name: Run Model Training
+      # Jalankan preprocessing
+      - name: Run preprocessing
         shell: bash -l {0}
         run: |
-          cd MLProject
-          python modelling.py
+          python MLProject/earthquake_data_preprocessing.py
 
-      - name: Upload MLflow Artifacts
+      # Jalankan training model
+      - name: Train model
+        shell: bash -l {0}
+        run: |
+          python MLProject/modelling.py
+
+      # Upload model dan hasil MLflow sebagai artifact
+      - name: Upload trained model artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mlflow-artifacts
-          path: MLProject/mlruns/
+          name: ml-artifacts
+          path: |
+            MLProject/mlruns/
+            MLProject/*.joblib
