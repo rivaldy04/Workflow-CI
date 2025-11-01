@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: write 
 
 jobs:
   train-model:
@@ -29,16 +33,37 @@ jobs:
           conda info
           conda list
 
-      - name: Run training
+      - name: Run training script
         shell: bash -l {0}
         run: |
-          conda activate ml-env
           set -e
+          conda activate ml-env
+          echo "🚀 Starting model training..."
           python -u MLProject/modelling.py
-
+          echo "✅ Training completed!"
+          
       - name: Upload trained model artifact
         uses: actions/upload-artifact@v4
         with:
           name: trained-model
           path: |
-            MLProject/mlruns
+            MLProject/mlruns/
+
+      - name: Commit and push trained model
+        shell: bash -l {0}
+        run: |
+          echo "🪶 Committing trained model to repository..."
+          git config --local user.email "actions@github.com"
+          git config --local user.name "github-actions"
+
+          # pastikan folder ada
+          mkdir -p MLProject/mlruns/
+
+          # tambahkan hasil training
+          git add MLProject/mlruns/
+
+          # commit hanya jika ada perubahan
+          git commit -m "🤖 Update trained model [auto]" || echo "No changes to commit"
+
+          # push ke branch main
+          git push origin main
