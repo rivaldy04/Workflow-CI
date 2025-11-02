@@ -3,17 +3,13 @@ import mlflow.sklearn
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, f1_score,
-    roc_auc_score, log_loss, balanced_accuracy_score, matthews_corrcoef,
-    confusion_matrix
-)
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import random
 import numpy as np
 
 # === Setup MLflow ===
 mlflow.set_tracking_uri("http://127.0.0.1:5000/")
-mlflow.set_experiment("Latihan MLFlow Manual Logging (10 Metrics)")
+mlflow.set_experiment("Latihan MLFlow Manual Logging")
 
 # === Set random seed untuk reproduktifitas ===
 np.random.seed(42)
@@ -37,7 +33,7 @@ input_example = X_train.iloc[:5]
 print("🚀 Eksperimen dimulai...")
 
 # === Jalankan experiment ===
-with mlflow.start_run(run_name="RandomForest_Manual_10Metrics"):
+with mlflow.start_run(run_name="RandomForest_Manual"):
     # Parameter model
     n_estimators = 505
     max_depth = 37
@@ -59,55 +55,28 @@ with mlflow.start_run(run_name="RandomForest_Manual_10Metrics"):
 
     # Prediksi dan hitung metrik
     y_pred = model.predict(X_test)
-    y_proba = model.predict_proba(X_test)[:, 1]
 
-    # === Metrik dasar ===
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, zero_division=0)
     recall = recall_score(y_test, y_pred, zero_division=0)
     f1 = f1_score(y_test, y_pred, zero_division=0)
 
-    # === Metrik tambahan ===
-    roc_auc = roc_auc_score(y_test, y_proba)
-    logloss = log_loss(y_test, y_proba)
-    balanced_acc = balanced_accuracy_score(y_test, y_pred)
-    mcc = matthews_corrcoef(y_test, y_pred)
+    # Log metrik (manual)
+    mlflow.log_metric("accuracy", accuracy)
+    mlflow.log_metric("precision", precision)
+    mlflow.log_metric("recall", recall)
+    mlflow.log_metric("f1_score", f1)
 
-    # Dari confusion matrix → specificity & false positive rate
-    tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
-    specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
-    fpr = fp / (fp + tn) if (fp + tn) > 0 else 0
-
-    # === Log semua metrik ke MLflow ===
-    mlflow.log_metrics({
-        "accuracy": accuracy,
-        "precision": precision,
-        "recall": recall,
-        "f1_score": f1,
-        "roc_auc": roc_auc,
-        "log_loss": logloss,
-        "balanced_accuracy": balanced_acc,
-        "matthews_corrcoef": mcc,
-        "specificity": specificity,
-        "false_positive_rate": fpr
-    })
-
-    # === Log model ke MLflow ===
+    # Log model ke MLflow
     mlflow.sklearn.log_model(
         sk_model=model,
         artifact_path="model",
         input_example=input_example
     )
 
-print("✅ Eksperimen selesai.")
-print("📊 Hasil metrik:")
-print(f"   Accuracy            : {accuracy:.4f}")
-print(f"   Precision           : {precision:.4f}")
-print(f"   Recall              : {recall:.4f}")
-print(f"   F1-score            : {f1:.4f}")
-print(f"   ROC-AUC             : {roc_auc:.4f}")
-print(f"   Log Loss            : {logloss:.4f}")
-print(f"   Balanced Accuracy   : {balanced_acc:.4f}")
-print(f"   Matthews Corrcoef   : {mcc:.4f}")
-print(f"   Specificity (TNR)   : {specificity:.4f}")
-print(f"   False Positive Rate : {fpr:.4f}")
+print(f"✅ Eksperimen selesai.")
+print(f"📊 Hasil:")
+print(f"   Accuracy : {accuracy:.4f}")
+print(f"   Precision: {precision:.4f}")
+print(f"   Recall   : {recall:.4f}")
+print(f"   F1-score : {f1:.4f}")
