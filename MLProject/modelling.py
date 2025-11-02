@@ -6,17 +6,22 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import random
 import numpy as np
+import os
 
-# === Setup MLflow ===
-mlflow.set_tracking_uri("http://127.0.0.1:5000/")
-mlflow.set_experiment("Latihan MLFlow Manual Logging")
+# Pastikan folder penyimpanan lokal ada
+os.makedirs("MLProject/mlruns", exist_ok=True)
+
+# Simpan hasil MLflow ke folder lokal
+mlflow.set_tracking_uri("file:./MLProject/mlruns")
+mlflow.set_experiment("Latihan_MLFlow_Local")
+
 
 # === Set random seed untuk reproduktifitas ===
 np.random.seed(42)
 random.seed(42)
 
 # === Load dataset ===
-data = pd.read_csv("earthquake_data_preprocessing.csv")
+data = pd.read_csv("MLProject/earthquake_data_preprocessing.csv")
 
 # === Pisahkan fitur dan target ===
 X = data.drop("tsunami", axis=1)
