@@ -39,7 +39,7 @@ jobs:
           set -e
           conda activate ml-env
           echo "🚀 Starting model training..."
-          python -u MLProject/modelling.py
+          mlflow run MLProject --env-manager=local
           echo "✅ Training completed!"
           
       - name: Upload trained model artifact
