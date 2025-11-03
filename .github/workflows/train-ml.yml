@@ -24,7 +24,7 @@ jobs:
           activate-environment: ml-env
           environment-file: MLProject/conda.yaml
           python-version: 3.11
-          auto-activate-base: false   
+          auto-activate-base: false
           use-mamba: true
 
       - name: 🔍 Verify Conda environment
@@ -40,11 +40,17 @@ jobs:
           conda activate ml-env
           echo "🚀 Starting model training..."
 
-          mkdir -p MLProject/mlruns
+          # Pindah ke direktori proyek MLProject
+          cd MLProject
 
-          export MLFLOW_TRACKING_URI="file:MLProject/mlruns"
+          # Pastikan folder mlruns ada
+          mkdir -p mlruns
 
-          mlflow run MLProject --env-manager=local
+          # Set tracking URI agar disimpan lokal di MLProject/mlruns
+          export MLFLOW_TRACKING_URI="file:./mlruns"
+
+          # Jalankan training (akan memanggil MLproject + modelling.py)
+          mlflow run . --env-manager=local
 
           echo "✅ Training completed!"
 
@@ -61,8 +67,5 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "github-actions"
 
-          mkdir -p MLProject/mlruns/
           git add MLProject/mlruns/
-
-          git commit -m "🤖 Update trained model [auto]" || echo "No changes to commit"
-          git push origin main
+          git commit -m "🤖 Update trained model [auto]" || echo "No changes to com
