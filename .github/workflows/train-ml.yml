@@ -1,4 +1,4 @@
-name: Train ML Model with MLflow
+name: Train ML Model
 
 on:
   push:
@@ -7,17 +7,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: write 
 
 jobs:
   train-model:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧩 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: ⚙️ Set up Miniconda (stable)
+      - name: Set up Miniconda (stable)
         uses: conda-incubator/setup-miniconda@v3
         with:
           installer-url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -27,36 +27,36 @@ jobs:
           auto-activate-base: false
           use-mamba: true
 
-      - name: 🧠 Verify Conda environment
+      - name: Verify Conda environment
         shell: bash -l {0}
         run: |
           conda info
           conda list
 
-      - name: 🚀 Run MLflow project
+      - name: Run training script
         shell: bash -l {0}
         run: |
           set -e
           conda activate ml-env
-          echo "🚀 Starting MLflow Project Run..."
-          mlflow run MLProject --experiment-name "CI_ML_Auto_Train" -P n_estimators=400 -P max_depth=30
-          echo "✅ MLflow Run Completed!"
-
-      - name: 📦 Upload MLflow artifacts
+          echo "🚀 Starting model training..."
+          python -u MLProject/modelling.py
+          echo "✅ Training completed!"
+          
+      - name: Upload trained model artifact
         uses: actions/upload-artifact@v4
         with:
           name: trained-model
           path: |
             MLProject/mlruns/
 
-      - name: 💾 Commit and push trained model
+      - name: Commit and push trained model
         shell: bash -l {0}
         run: |
           echo "🪶 Committing trained model to repository..."
           git config --local user.email "actions@github.com"
           git config --local user.name "github-actions"
 
-          # pastikan folder hasil training ada
+          # pastikan folder ada
           mkdir -p MLProject/mlruns/
 
           # tambahkan hasil training
