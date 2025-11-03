@@ -1,0 +1,41 @@
+artifact_path: file:///home/runner/work/Workflow-CI-Rivaldy-Arrayan-Yuwono/Workflow-CI-Rivaldy-Arrayan-Yuwono/MLProject/mlruns/455732499528644120/models/m-f8a142893ca947a5abf7400fa4b14cbf/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.14
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+is_signature_from_type_hint: false
+mlflow_version: 3.5.1
+model_id: m-f8a142893ca947a5abf7400fa4b14cbf
+model_size_bytes: 4726441
+model_uuid: m-f8a142893ca947a5abf7400fa4b14cbf
+prompts: null
+run_id: ff206a25668642adad59c5a5382f2092
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "magnitude", "required": true}, {"type": "double",
+    "name": "depth", "required": true}, {"type": "double", "name": "sig", "required":
+    true}, {"type": "double", "name": "nst", "required": true}, {"type": "double",
+    "name": "dmin", "required": true}, {"type": "double", "name": "gap", "required":
+    true}, {"type": "double", "name": "cdi", "required": true}, {"type": "double",
+    "name": "mmi", "required": true}, {"type": "double", "name": "latitude", "required":
+    true}, {"type": "double", "name": "longitude", "required": true}, {"type": "double",
+    "name": "Year", "required": true}, {"type": "double", "name": "Month", "required":
+    true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-11-03 22:57:31.313542'

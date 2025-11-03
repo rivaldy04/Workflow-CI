@@ -1,0 +1,14 @@
+artifact_uri: file:///home/runner/work/Workflow-CI-Rivaldy-Arrayan-Yuwono/Workflow-CI-Rivaldy-Arrayan-Yuwono/MLProject/mlruns/455732499528644120/ff206a25668642adad59c5a5382f2092/artifacts
+end_time: 1762210654740
+entry_point_name: ''
+experiment_id: '455732499528644120'
+lifecycle_stage: active
+run_id: ff206a25668642adad59c5a5382f2092
+run_name: RandomForest_AutoLog_Only
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762210650577
+status: 3
+tags: []
+user_id: runner

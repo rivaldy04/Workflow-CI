@@ -1,0 +1,14 @@
+digest: 1ca62920
+name: dataset
+profile: '{"num_rows": 625, "num_elements": 7500}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "magnitude", "required": true},
+  {"type": "double", "name": "depth", "required": true}, {"type": "double", "name":
+  "sig", "required": true}, {"type": "double", "name": "nst", "required": true}, {"type":
+  "double", "name": "dmin", "required": true}, {"type": "double", "name": "gap", "required":
+  true}, {"type": "double", "name": "cdi", "required": true}, {"type": "double", "name":
+  "mmi", "required": true}, {"type": "double", "name": "latitude", "required": true},
+  {"type": "double", "name": "longitude", "required": true}, {"type": "double", "name":
+  "Year", "required": true}, {"type": "double", "name": "Month", "required": true}]}'
+source: '{"tags": {"mlflow.user": "runner", "mlflow.source.name": "MLProject/modelling.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "07cea52193440a870fc4803f7684eca296d8fcaa"}}'
+source_type: code
