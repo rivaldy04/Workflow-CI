@@ -5,8 +5,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import random
 import numpy as np
+import os
 
-# mlflow.set_tracking_uri("http://127.0.0.1:5000/")
+# mlflow.set_tracking_uri("http://127.0.0.1:5000/") 
 mlflow.set_experiment("Latihan MLFlow Auto Logging v2")
 
 mlflow.sklearn.autolog(
@@ -30,8 +31,15 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 print("🚀 Eksperimen dimulai...")
 
-with mlflow.start_run(run_name="RandomForest_AutoLog_Only"):
-    # Inisialisasi model
+if os.environ.get("MLFLOW_RUN_ID") is None:
+    with mlflow.start_run(run_name="RandomForest_AutoLog_Only"):
+        model = RandomForestClassifier(
+            n_estimators=505,
+            max_depth=37,
+            random_state=42
+        )
+        model.fit(X_train, y_train)
+else:
     model = RandomForestClassifier(
         n_estimators=505,
         max_depth=37,
