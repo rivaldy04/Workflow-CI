@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write 
+  contents: write
 
 jobs:
   train-model:
@@ -24,7 +24,7 @@ jobs:
           activate-environment: ml-env
           environment-file: MLProject/conda.yaml
           python-version: 3.11
-          auto-activate-base: false
+          auto_activate_base: false     # perbaikan key name
           use-mamba: true
 
       - name: Verify Conda environment
@@ -33,15 +33,19 @@ jobs:
           conda info
           conda list
 
-      - name: Run training script
+      - name: Run MLflow training
         shell: bash -l {0}
         run: |
           set -e
           conda activate ml-env
           echo "🚀 Starting model training..."
+
+          mkdir -p MLProject/mlruns
+          export MLFLOW_TRACKING_URI="file:MLProject/mlruns"
+
           mlflow run MLProject --env-manager=local
           echo "✅ Training completed!"
-          
+
       - name: Upload trained model artifact
         uses: actions/upload-artifact@v4
         with:
@@ -56,14 +60,10 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "github-actions"
 
-          # pastikan folder ada
           mkdir -p MLProject/mlruns/
 
-          # tambahkan hasil training
           git add MLProject/mlruns/
 
-          # commit hanya jika ada perubahan
           git commit -m "🤖 Update trained model [auto]" || echo "No changes to commit"
 
-          # push ke branch main
           git push origin main
