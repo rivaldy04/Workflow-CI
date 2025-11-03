@@ -18,7 +18,7 @@ mlflow.sklearn.autolog(
 np.random.seed(42)
 random.seed(42)
 
-data = pd.read_csv("MLProject/earthquake_data_preprocessing.csv")
+data = pd.read_csv("earthquake_data_preprocessing.csv")
 
 X = data.drop("tsunami", axis=1)
 y = data["tsunami"]
