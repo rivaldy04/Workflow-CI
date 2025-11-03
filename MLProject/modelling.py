@@ -7,18 +7,32 @@ import random
 import numpy as np
 import os
 
-# mlflow.set_tracking_uri("http://127.0.0.1:5000/") 
+# ==========================================================
+# 🔧 Setup MLflow tracking lokal (di dalam folder MLProject/mlruns)
+# ==========================================================
+mlflow.set_tracking_uri("file:./MLProject/mlruns")
+
+# Buat atau gunakan experiment bernama tetap
 mlflow.set_experiment("Latihan MLFlow Auto Logging v2")
 
+# ==========================================================
+# 🔧 Aktifkan autologging
+# ==========================================================
 mlflow.sklearn.autolog(
     log_input_examples=True,
     log_model_signatures=True,
     log_models=True
 )
 
+# ==========================================================
+# 🔧 Reproducibility
+# ==========================================================
 np.random.seed(42)
 random.seed(42)
 
+# ==========================================================
+# 📥 Load data
+# ==========================================================
 data = pd.read_csv("MLProject/earthquake_data_preprocessing.csv")
 
 X = data.drop("tsunami", axis=1)
@@ -31,15 +45,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 print("🚀 Eksperimen dimulai...")
 
-if os.environ.get("MLFLOW_RUN_ID") is None:
-    with mlflow.start_run(run_name="RandomForest_AutoLog_Only"):
-        model = RandomForestClassifier(
-            n_estimators=505,
-            max_depth=37,
-            random_state=42
-        )
-        model.fit(X_train, y_train)
-else:
+# ==========================================================
+# 🧠 Jalankan training dalam MLflow run
+# ==========================================================
+with mlflow.start_run(run_name="RandomForest_AutoLog_Only"):
     model = RandomForestClassifier(
         n_estimators=505,
         max_depth=37,
@@ -48,4 +57,4 @@ else:
     model.fit(X_train, y_train)
 
 print("✅ Eksperimen selesai (autolog aktif).")
-print("📊 Cek hasil di MLflow UI: http://127.0.0.1:5000")
+print("📊 Cek hasil run tersimpan di folder MLProject/mlruns/")
