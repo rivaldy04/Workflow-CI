@@ -14,26 +14,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 🧭 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Miniconda (stable)
+      - name: 🐍 Set up Miniconda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
           installer-url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
           activate-environment: ml-env
           environment-file: MLProject/conda.yaml
           python-version: 3.11
-          auto_activate_base: false     # perbaikan key name
+          auto-activate-base: false   
           use-mamba: true
 
-      - name: Verify Conda environment
+      - name: 🔍 Verify Conda environment
         shell: bash -l {0}
         run: |
           conda info
           conda list
 
-      - name: Run MLflow training
+      - name: 🚀 Run MLflow training
         shell: bash -l {0}
         run: |
           set -e
@@ -41,19 +41,20 @@ jobs:
           echo "🚀 Starting model training..."
 
           mkdir -p MLProject/mlruns
+
           export MLFLOW_TRACKING_URI="file:MLProject/mlruns"
 
-          mlflow run MLProject --env-manager=local
+          python MLProject/modelling.py
+
           echo "✅ Training completed!"
 
-      - name: Upload trained model artifact
+      - name: 📦 Upload trained model artifact
         uses: actions/upload-artifact@v4
         with:
           name: trained-model
-          path: |
-            MLProject/mlruns/
+          path: MLProject/mlruns/
 
-      - name: Commit and push trained model
+      - name: 💾 Commit and push trained model
         shell: bash -l {0}
         run: |
           echo "🪶 Committing trained model to repository..."
@@ -61,9 +62,7 @@ jobs:
           git config --local user.name "github-actions"
 
           mkdir -p MLProject/mlruns/
-
           git add MLProject/mlruns/
 
           git commit -m "🤖 Update trained model [auto]" || echo "No changes to commit"
-
           git push origin main
