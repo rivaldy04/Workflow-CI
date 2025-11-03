@@ -7,12 +7,8 @@ import random
 import numpy as np
 import os
 
-# ==========================================================
-# 🔧 Setup MLflow tracking lokal (di dalam folder MLProject/mlruns)
-# ==========================================================
+os.makedirs("MLProject/mlruns", exist_ok=True)
 mlflow.set_tracking_uri("file:./MLProject/mlruns")
-
-# Buat atau gunakan experiment bernama tetap
 mlflow.set_experiment("Latihan MLFlow Auto Logging v2")
 
 # ==========================================================
