@@ -44,7 +44,7 @@ jobs:
 
           export MLFLOW_TRACKING_URI="file:MLProject/mlruns"
 
-          python MLProject/modelling.py
+          mlflow run MLProject --env-manager=local
 
           echo "✅ Training completed!"
 
