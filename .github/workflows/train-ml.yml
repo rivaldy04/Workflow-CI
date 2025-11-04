@@ -27,12 +27,6 @@ jobs:
           auto-activate-base: false
           use-mamba: true
 
-      - name: 🔍 Verify Conda environment
-        shell: bash -l {0}
-        run: |
-          conda info
-          conda list
-
       - name: 🚀 Run MLflow training
         shell: bash -l {0}
         run: |
@@ -40,16 +34,20 @@ jobs:
           conda activate ml-env
           echo "🚀 Starting model training..."
 
-          # Pindah ke direktori proyek MLProject
           cd MLProject
-
-          # Pastikan folder mlruns ada
           mkdir -p mlruns
-
-          # Set tracking URI agar disimpan lokal di MLProject/mlruns
           export MLFLOW_TRACKING_URI="file:./mlruns"
 
-          # Jalankan training (akan memanggil MLproject + modelling.py)
+          python - <<'PYCODE'
+          import mlflow, os
+          os.makedirs("mlruns", exist_ok=True)
+          mlflow.set_tracking_uri("file:./mlruns")
+          if not any(exp.name == "Latihan MLFlow Auto Logging v2" for exp in mlflow.search_experiments()):
+            mlflow.create_experiment("Latihan MLFlow Auto Logging v2")
+          print("✅ Experiment ready!")
+          PYCODE
+
+          # Jalankan MLproject
           mlflow run . --env-manager=local
 
           echo "✅ Training completed!"
@@ -66,6 +64,6 @@ jobs:
           echo "🪶 Committing trained model to repository..."
           git config --local user.email "actions@github.com"
           git config --local user.name "github-actions"
-
           git add MLProject/mlruns/
-          git commit -m "🤖 Update trained model [auto]" || echo "No changes to com
+          git commit -m "🤖 Update trained model [auto]" || echo "No changes to commit"
+          git push origin main
