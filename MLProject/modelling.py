@@ -29,8 +29,8 @@ random.seed(42)
 # ==========================================================
 # 📥 Load data
 # ==========================================================
-data = pd.read_csv("MLProject/earthquake_data_preprocessing.csv")
-
+csv_path = os.path.join(os.path.dirname(__file__), "earthquake_data_preprocessing.csv")
+data = pd.read_csv(csv_path)
 X = data.drop("tsunami", axis=1)
 y = data["tsunami"]
 
