@@ -47,8 +47,8 @@ jobs:
           print("✅ Experiment ready!")
           PYCODE
 
-          # Jalankan MLproject
-          mlflow run . --env-manager=local
+          # 👇 Tambahkan ini agar tidak pakai experiment ID=0
+          mlflow run . --env-manager=local --experiment-name "Latihan MLFlow Auto Logging v2"
 
           echo "✅ Training completed!"
 
