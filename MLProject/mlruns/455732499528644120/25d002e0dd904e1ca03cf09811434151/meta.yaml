@@ -1,0 +1,14 @@
+artifact_uri: file:///home/runner/work/Workflow-CI-Rivaldy-Arrayan-Yuwono/Workflow-CI-Rivaldy-Arrayan-Yuwono/MLProject/mlruns/455732499528644120/25d002e0dd904e1ca03cf09811434151/artifacts
+end_time: 1762257390844
+entry_point_name: ''
+experiment_id: '455732499528644120'
+lifecycle_stage: active
+run_id: 25d002e0dd904e1ca03cf09811434151
+run_name: overjoyed-midge-948
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762257384077
+status: 3
+tags: []
+user_id: runner

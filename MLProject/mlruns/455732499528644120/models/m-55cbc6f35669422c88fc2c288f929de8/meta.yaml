@@ -1,0 +1,10 @@
+artifact_location: file:///home/runner/work/Workflow-CI-Rivaldy-Arrayan-Yuwono/Workflow-CI-Rivaldy-Arrayan-Yuwono/MLProject/mlruns/455732499528644120/models/m-55cbc6f35669422c88fc2c288f929de8/artifacts
+creation_timestamp: 1762257386243
+experiment_id: '455732499528644120'
+last_updated_timestamp: 1762257388242
+model_id: m-55cbc6f35669422c88fc2c288f929de8
+model_type: null
+name: model
+source_run_id: 25d002e0dd904e1ca03cf09811434151
+status: 2
+status_message: null
