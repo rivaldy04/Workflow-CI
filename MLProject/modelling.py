@@ -7,8 +7,8 @@ import random
 import numpy as np
 import os
 
-os.makedirs("MLProject/mlruns", exist_ok=True)
-mlflow.set_tracking_uri("file:./MLProject/mlruns")
+os.makedirs("mlruns", exist_ok=True)
+mlflow.set_tracking_uri("file:./mlruns")
 mlflow.set_experiment("Latihan MLFlow Auto Logging v2")
 
 # ==========================================================
